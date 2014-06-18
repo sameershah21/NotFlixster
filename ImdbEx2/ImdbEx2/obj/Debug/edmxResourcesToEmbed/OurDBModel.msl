@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MyProjectsModelStoreContainer" CdmEntityContainer="MyProjectsEntities">
+    <EntitySetMapping Name="tbl_Not_Flixster">
+      <EntityTypeMapping TypeName="MyProjectsModel.tbl_Not_Flixster">
+        <MappingFragment StoreEntitySet="tbl_Not_Flixster">
+          <ScalarProperty Name="OurID" ColumnName="OurID" />
+          <ScalarProperty Name="OurDesc" ColumnName="OurDesc" />
+          <ScalarProperty Name="OurCountriesReleasedIn" ColumnName="OurCountriesReleasedIn" />
+          <ScalarProperty Name="OurRating" ColumnName="OurRating" />
+          <ScalarProperty Name="OurTitle" ColumnName="OurTitle" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Not_Flixster_Reviews">
+      <EntityTypeMapping TypeName="MyProjectsModel.tbl_Not_Flixster_Reviews">
+        <MappingFragment StoreEntitySet="tbl_Not_Flixster_Reviews">
+          <ScalarProperty Name="OurID" ColumnName="OurID" />
+          <ScalarProperty Name="OurReviewID" ColumnName="OurReviewID" />
+          <ScalarProperty Name="OurReviews" ColumnName="OurReviews" />
+          <ScalarProperty Name="OurReviewsDaysAgo" ColumnName="OurReviewsDaysAgo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

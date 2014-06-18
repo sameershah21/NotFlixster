@@ -1,0 +1,108 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.Net;
+using System.Web.Http.ModelBinding;
+using System.Web.Mvc;
+using System.IO;
+
+namespace ImdbEx2.Models
+{
+
+    //public class JsonModelBinder : System.Web.Mvc.IModelBinder
+    //{
+    //    public object BindModel(ControllerContext controllerContext, System.Web.Mvc.ModelBindingContext bindingContext)
+    //    {
+    //        RootObject model;
+
+    //        if (controllerContext.RequestContext.HttpContext.Request.AcceptTypes.Contains("application/json"))
+    //        {
+    //            var serializer = new JavaScriptSerializer();
+    //            var form = controllerContext.RequestContext.HttpContext.Request.Form.ToString();
+    //            model = serializer.Deserialize<RootObject>(HttpUtility.UrlDecode(form));
+    //        }
+    //        else
+    //        {
+    //            model = (RootObject)ModelBinders.Binders.DefaultBinder.BindModel(controllerContext, bindingContext);
+    //        }
+
+    //        return model;
+    //    }
+    //}
+
+
+
+
+
+
+
+
+    public class JsonModelBinder : System.Web.Mvc.DefaultModelBinder
+    {
+
+        public override object BindModel(ControllerContext controllerContext, System.Web.Mvc.ModelBindingContext bindingContext)
+        {
+            if (!IsJSONRequest(controllerContext))
+            {
+                return base.BindModel(controllerContext, bindingContext);
+            }
+
+            // Get the JSON data that's been posted
+            var request = controllerContext.HttpContext.Request;
+            var jsonStringData = new StreamReader(request.InputStream).ReadToEnd();
+
+            // Use the built-in serializer to do the work for us
+            return new JavaScriptSerializer()
+                .Deserialize(jsonStringData, bindingContext.ModelMetadata.ModelType);
+
+            // -- REQUIRES .NET4
+            // If you want to use the .NET4 version of this, change the target framework and uncomment the line below
+            // and uncomment the above return statement
+            //return new JavaScriptSerializer().Deserialize(jsonStringData, bindingContext.ModelMetadata.ModelType);            
+        }
+        
+        
+        //public override object BindModel(System.Web.Mvc.ControllerContext controllerContext, System.Web.Mvc.ModelBindingContext bindingContext)
+        //{
+        //    string url = GetURL();
+        //    HttpWebRequest request1 = (HttpWebRequest)WebRequest.Create(url);
+        //    request1.Method = "GET";
+        //    request1.Accept = "application/json";
+        //    request1.ContentLength = 0;
+        //    WebResponse ws = request1.GetResponse();
+
+        //    string jsonString = string.Empty;
+        //    using (System.IO.StreamReader sreader = new System.IO.StreamReader(ws.GetResponseStream()))
+        //    {
+        //        jsonString = sreader.ReadToEnd();
+        //    }
+        //    //Using Javascript Serializer rather than DataContractJsonSerializer as it supports date form
+        //    //JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
+        //    // Dictionary<string, object> values = jsSerializer.DeserializeObject(jsonString) as Dictionary<string, object>; // for O(1) lookup time
+        //    // var values = jsSerializer.Deserialize<RootObject>(jsonString, bindingContext.ModelMetadata.ModelType);
+        //    //return values;
+        //    // Use the built-in serializer to do the work for us
+        //    return new JavaScriptSerializer()
+        //        .Deserialize(jsonString, bindingContext.ModelMetadata.ModelType);
+        //}
+
+
+        private static bool IsJSONRequest(ControllerContext controllerContext)
+        {
+            var contentType = controllerContext.HttpContext.Request.ContentType;
+            return contentType.Contains("json");
+        }
+
+
+
+        //private string GetURL()
+        //{
+        //    // string URL = " http://www.imdb.com/xml/find?json=1&nr=1&nm=on&q=jeniffer+garner";
+        //    string URL = //HttpUtility.UrlEncode
+        //        (string.Format("http://private-f5ef-themoviedb.apiary.io/3/search/movie?query={0}&api_key=82a4e8f609d88910ecebf92741a87f7b", "Titanic"));
+        //    return URL;
+        //}
+    }
+}

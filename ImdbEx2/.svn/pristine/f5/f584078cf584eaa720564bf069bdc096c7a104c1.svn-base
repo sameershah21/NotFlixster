@@ -1,0 +1,120 @@
+﻿<%@ Import Namespace="ImdbEx2.Models" %>
+
+
+<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Result>" %>
+
+<asp:Content ID="indexTitle" ContentPlaceHolderID="TitleContent" runat="server">
+    NOT Flixster
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <script type="text/javascript">
+        $(function () {
+            //movie search
+            $("#btnSearchMovie").click(function () {
+
+                var movie = $("#txtMovieName").val();
+                //var genre = getInfo("txtgenrename");
+                // basic validation to check null. Validation steps can be added further based on requirements.
+                if ((movie == null) || (movie == "")) {
+                    alert("Specify a movie name please!");
+                    return;
+                }
+
+                var movieURL = "http://private-f5ef-themoviedb.apiary.io/3/search/movie?query=" + movie + "&api_key=82a4e8f609d88910ecebf92741a87f7b";
+                alert(movieURL);
+                //alert(movie.toString());
+                //get deserialised data from api
+                $.ajax({
+                    url: movieURL,
+                    type: 'GET',
+                    dataType: 'json',
+                    error: function (xhr, status, error) {
+                        alert("error");
+                        return;
+                    },
+                    success: function (json) {
+                        $("#resultInfoTitle").html(JSON.stringify(json));
+                    }
+                });
+
+//                $.ajax({
+//                    type: 'POST',
+//                    url: "home/save",
+//                    // pass the data as a json string
+//                    data: personText,
+
+//                    // tell the server that is indeed JSON that we're sending
+//                    contentType: "application/json",
+
+//                    // handle the request back from the server
+//                    success: function (data) {
+//                        // get the result and do some magic with it
+//                        var message = data.Message;
+//                        $("#resultMessage").html(message);
+//                    },
+
+//                    // this is to tell the handler for the 'success' piece
+//                    // that the content of the result is json and that 
+//                    // serialization should take place
+//                    dataType: 'json'
+//                });
+            });
+        });
+
+        function getInfo(elementid) {
+            var name = $("#txtmoviename").val();
+            // poor man's validation
+            
+            return (name == "") ? null : { Name: name };
+        }
+
+
+
+
+
+
+        
+         
+    </script>
+    <% using(Html.BeginForm("JsonData","Home",new{},FormMethod.Post, new{id="jsonform"})) { %>
+
+    <% = Html.TextArea("jsonarea","",new {id="jsonarea"}) %><br />
+
+    <input type="button" id="getjson" value="Get Json" />
+    <input type="button" id="postjson" value="Post Json" />
+  <% } %>
+
+
+
+    <!-- Have the system create an input form for us -->
+    <%= Html.DisplayForModel() %>
+   <div>
+        <p>
+            <input type="text" id="txtMovieName" />
+            <input type="submit" value="Search By Title" id="btnSearchMovie" />
+        </p>
+        <div>
+            <span id="resultMessage"></span>
+        </div>
+         <div>
+            <label>Following matches were found from the api</label>
+            <span id="resultInfoTitle"></span>
+        </div>
+    </div>
+
+    <div>
+        <p>
+            <input type="text" id="txtGenreName" />
+            <input type="submit" value="Search By Genre" id="btnSearchGenre" />
+        </p>
+        <div>
+            <span id="Span1"></span>
+        </div>
+         <div>
+            <span id="Span2"></span>
+        </div>
+    </div>
+
+</asp:Content>
+

@@ -1,0 +1,99 @@
+﻿<%@ Import Namespace="ImdbEx2.Models" %>
+
+
+<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<RootObject>" %>
+
+<asp:Content ID="indexTitle" ContentPlaceHolderID="TitleContent" runat="server">
+    NOT Flixster
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <script type="text/javascript">
+        $(function () {
+            $("#personCreate").click(function () {
+
+                var person = getInfo();
+
+                // poor man's validation
+                if (person == null) {
+                    alert("Specify a movie name please!");
+                    return;
+                }
+
+
+
+                //get deserialised data from api
+                $.ajax({
+                    url: 'http://private-f5ef-themoviedb.apiary.io/3/search/movie?query=Titanic&api_key=82a4e8f609d88910ecebf92741a87f7b',
+                    type: 'GET',
+                    dataType: 'json',
+                    error: function (xhr, status, error) {
+                        alert("error");
+                    },
+                    success: function (json) {
+                        //alert(JSON.stringify(json));
+                        $("#resultInfo").html(JSON.stringify(json));
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: "home/save",
+                    // pass the data as a json string
+                    data: personText,
+
+                    // tell the server that is indeed JSON that we're sending
+                    contentType: "application/json",
+
+                    // handle the request back from the server
+                    success: function (data) {
+                        // get the result and do some magic with it
+                        var message = data.Message;
+                        $("#resultMessage").html(message);
+                    },
+
+                    // this is to tell the handler for the 'success' piece
+                    // that the content of the result is json and that 
+                    // serialization should take place
+                    dataType: 'json'
+                });
+            });
+        });
+
+        function getInfo() {
+            var name = $("#name").val();
+            
+
+            // poor man's validation
+            return (name == "") ? null : { Name: name };
+        }
+
+
+
+        function get_json_feed() {
+            
+
+            
+            //return jsonObjReturn;
+           
+        }
+
+
+        
+         
+    </script>
+    
+    <!-- Have the system create an input form for us -->
+    <%=Html.EditorForModel() %>
+    <p>
+        <input type="text" id="name" />
+        <input type="submit" value="Deserial" id="personCreate" />
+    </p>
+    <div>
+        <span id="resultMessage"></span>
+    </div>
+     <div>
+        <span id="resultInfo"></span>
+    </div>
+</asp:Content>
+

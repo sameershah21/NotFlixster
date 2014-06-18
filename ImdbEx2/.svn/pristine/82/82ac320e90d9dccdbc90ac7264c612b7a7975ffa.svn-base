@@ -1,0 +1,157 @@
+﻿<%@ Import Namespace="ImdbEx2.Models" %>
+
+
+<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<RootObject>" %>
+
+<asp:Content ID="indexTitle" ContentPlaceHolderID="TitleContent" runat="server">
+    NOT Flixster
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <script type="text/javascript">
+        $(function () {
+            //movie search
+            $("#btnSearchMovie").click(function () {
+
+                var movie = $("#txtMovieName").val();
+
+                //var genre = getInfo("txtgenrename");
+                // basic validation to check null. Validation steps can be added further based on requirements.
+                if ((movie == null) || (movie == "")) {
+                    alert("Please enter a movie name to search");
+                    return;
+                }
+
+                //TODO: encode the api key later if security is required
+                var movieURL = "http://private-f5ef-themoviedb.apiary.io/3/search/movie?query=" + movie + "&api_key=82a4e8f609d88910ecebf92741a87f7b";
+                var dataRecieved = false;
+                alert(movieURL);
+                //alert(movie.toString());
+
+                //get deserialised data from api
+                $.ajax({
+                    url: movieURL,
+                    type: 'GET',
+                    dataType: 'json',
+                    error: function (xhr, status, error) {
+                        alert("There was an error while trying to contact services.");
+                        return;
+                    },
+                    success: function process(json) {
+                        $("#resultInfoTitle").html(JSON.stringify(json));
+                        var d = JSON.stringify(json);
+
+
+                        $.ajax({
+                            type: 'POST',
+                            url: "home/Search",
+                            // pass the data as a json string
+                            data: d,
+
+                            // tell the server that is indeed JSON that we're sending
+                            contentType: "json",
+
+                            // handle the request back from the server
+                            success: function (data) {
+                                // get the result and do some magic with it
+                                //var message = data.Message;
+                                //alert(data);
+                                //var data = eval(JSON.stringify(s)); // this will convert your json string to a javascript object
+                                //                                var dict = data;
+                                //                                alert(data[1]);
+                                data = JSON.stringify(eval(data));
+                                alert(data);
+                                var jsondata = $.parseJSON(data);
+                                alert(JSON.stringify(jsondata));
+
+                                //                                for (var key in data) {
+                                //                                    if (data.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors        
+                                //                                        $("#resultMessage").append(key + ': ' + data[key]);
+                                //                                        alert(key + ': ' + data[key]);
+                                //                                    }
+                                //                                }
+                                //$("#resultMessage").html(message);
+
+
+                                    var tbl_body = "";
+                                    $.each(jsondata, function () {
+                                        var tbl_row = "";
+                                        $.each(this, function (k, v) {
+                                            tbl_row += "<td>" + v + "</td>";
+                                        })
+                                        tbl_body += "<tr>" + tbl_row + "</tr>";
+                                    })
+                                    $("#target_table").html(tbl_body);
+
+
+
+                                $("#resultMessage").html(data);
+                            },
+
+                            // this is to tell the handler for the 'success' piece
+                            // that the content of the result is json and that 
+                            // serialization should take place
+                            //dataType: 'json'
+                            dataType: 'json'
+                        });
+                    }
+                });
+            });
+        });
+
+        function getInfo(elementid) {
+            var name = $("#txtmoviename").val();
+            // poor man's validation
+            
+            return (name == "") ? null : { Name: name };
+        }
+
+        function process(json) {
+        }
+
+
+
+
+
+
+        
+         
+    </script>
+
+
+
+
+    <!-- Have the system create an input form for us -->
+    <%= Html.DisplayForModel() %>
+   <div>
+        <p>
+            <input type="text" id="txtMovieName" />
+            <input type="submit" value="Search" id="btnSearchMovie" />
+        </p>
+
+        <table id="target_table"></table>
+        <div>
+            <span id="resultMessage"></span>
+            
+        </div>
+         <div>
+            <label>Following matches were found from the api</label>
+            <span id="resultInfoTitle"></span>
+        </div>
+    </div>
+
+    <div>
+        <p>
+            <input type="text" id="txtGenreName" />
+            <input type="submit" value="Search By Genre" id="btnSearchGenre" />
+        </p>
+        <div>
+            <span id="Span1"></span>
+        </div>
+         <div>
+            <span id="Span2"></span>
+        </div>
+    </div>
+
+</asp:Content>
+

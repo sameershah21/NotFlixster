@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MyProjectsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="MyProjectsModelStoreContainer">
+          <EntitySet Name="tbl_Not_Flixster" EntityType="MyProjectsModel.Store.tbl_Not_Flixster" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tbl_Not_Flixster_Reviews" EntityType="MyProjectsModel.Store.tbl_Not_Flixster_Reviews" store:Type="Tables" Schema="dbo" />
+        </EntityContainer>
+        <EntityType Name="tbl_Not_Flixster">
+          <Key>
+            <PropertyRef Name="OurID" />
+          </Key>
+          <Property Name="OurID" Type="int" Nullable="false" />
+          <Property Name="OurDesc" Type="varchar(max)" />
+          <Property Name="OurCountriesReleasedIn" Type="varchar(max)" />
+          <Property Name="OurRating" Type="int" />
+          <Property Name="OurTitle" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="tbl_Not_Flixster_Reviews">
+          <Key>
+            <PropertyRef Name="OurReviewID" />
+          </Key>
+          <Property Name="OurID" Type="int" Nullable="false" />
+          <Property Name="OurReviewID" Type="int" Nullable="false" />
+          <Property Name="OurReviews" Type="varchar(max)" />
+          <Property Name="OurReviewsDaysAgo" Type="int" />
+        </EntityType>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyProjectsModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="MyProjectsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_Not_Flixster" EntityType="MyProjectsModel.tbl_Not_Flixster" />
+          <EntitySet Name="tbl_Not_Flixster_Reviews" EntityType="MyProjectsModel.tbl_Not_Flixster_Reviews" />
+        </EntityContainer>
+        <EntityType Name="tbl_Not_Flixster">
+          <Key>
+            <PropertyRef Name="OurID" />
+          </Key>
+          <Property Name="OurID" Type="Int32" Nullable="false" />
+          <Property Name="OurDesc" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="OurCountriesReleasedIn" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="OurRating" Type="Int32" />
+          <Property Name="OurTitle" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tbl_Not_Flixster_Reviews">
+          <Key>
+            <PropertyRef Name="OurReviewID" />
+          </Key>
+          <Property Name="OurID" Type="Int32" Nullable="false" />
+          <Property Name="OurReviewID" Type="Int32" Nullable="false" />
+          <Property Name="OurReviews" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="OurReviewsDaysAgo" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyProjectsModelStoreContainer" CdmEntityContainer="MyProjectsEntities">
+          <EntitySetMapping Name="tbl_Not_Flixster"><EntityTypeMapping TypeName="MyProjectsModel.tbl_Not_Flixster"><MappingFragment StoreEntitySet="tbl_Not_Flixster">
+            <ScalarProperty Name="OurID" ColumnName="OurID" />
+            <ScalarProperty Name="OurDesc" ColumnName="OurDesc" />
+            <ScalarProperty Name="OurCountriesReleasedIn" ColumnName="OurCountriesReleasedIn" />
+            <ScalarProperty Name="OurRating" ColumnName="OurRating" />
+            <ScalarProperty Name="OurTitle" ColumnName="OurTitle" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="tbl_Not_Flixster_Reviews"><EntityTypeMapping TypeName="MyProjectsModel.tbl_Not_Flixster_Reviews"><MappingFragment StoreEntitySet="tbl_Not_Flixster_Reviews">
+            <ScalarProperty Name="OurID" ColumnName="OurID" />
+            <ScalarProperty Name="OurReviewID" ColumnName="OurReviewID" />
+            <ScalarProperty Name="OurReviews" ColumnName="OurReviews" />
+            <ScalarProperty Name="OurReviewsDaysAgo" ColumnName="OurReviewsDaysAgo" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="OurDBModel">
+        <EntityTypeShape EntityType="MyProjectsModel.tbl_Not_Flixster" Width="1.5" PointX="0.75" PointY="0.75" Height="1.9802864583333331" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyProjectsModel.tbl_Not_Flixster_Reviews" Width="1.5" PointX="2.75" PointY="0.75" Height="1.7879850260416674" IsExpanded="true" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

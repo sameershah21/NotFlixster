@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyProjectsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="MyProjectsModelStoreContainer">
+    <EntitySet Name="tbl_Not_Flixster" EntityType="MyProjectsModel.Store.tbl_Not_Flixster" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tbl_Not_Flixster_Reviews" EntityType="MyProjectsModel.Store.tbl_Not_Flixster_Reviews" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="tbl_Not_Flixster">
+    <Key>
+      <PropertyRef Name="OurID" />
+    </Key>
+    <Property Name="OurID" Type="int" Nullable="false" />
+    <Property Name="OurDesc" Type="varchar(max)" />
+    <Property Name="OurCountriesReleasedIn" Type="varchar(max)" />
+    <Property Name="OurRating" Type="int" />
+    <Property Name="OurTitle" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="tbl_Not_Flixster_Reviews">
+    <Key>
+      <PropertyRef Name="OurReviewID" />
+    </Key>
+    <Property Name="OurID" Type="int" Nullable="false" />
+    <Property Name="OurReviewID" Type="int" Nullable="false" />
+    <Property Name="OurReviews" Type="varchar(max)" />
+    <Property Name="OurReviewsDaysAgo" Type="int" />
+  </EntityType>
+</Schema>
